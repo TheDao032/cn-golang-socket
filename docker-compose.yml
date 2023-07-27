@@ -1,0 +1,41 @@
+version: '3.7'
+
+networks:
+  demo_socket:
+    name: demo_socket
+
+services:
+
+  server:
+    build:
+      context: ./server
+    networks:
+      - demo_socket
+    ports:
+    - 8080
+
+  client-1:
+    build:
+      context: ./client
+    networks:
+      - demo_socket
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      sleep infinity
+      "
+    links:
+      - "server"
+
+  client-2:
+    build:
+      context: ./client
+    networks:
+      - demo_socket
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      sleep infinity
+      "
+    links:
+      - "server"

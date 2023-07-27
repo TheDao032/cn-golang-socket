@@ -21,13 +21,16 @@ func handleIncomingMessages(conn net.Conn) {
 }
 
 func main() {
-	conn, err := net.Dial("tcp", "localhost:8080")
+	args := os.Args
+	conn, err := net.Dial("tcp", args[1])
 	if err != nil {
 		fmt.Println("Error connecting to server:", err)
 		return
 	}
 	defer conn.Close()
 
+
+	fmt.Println("connecting to server successfully")
 	go handleIncomingMessages(conn)
 
 	scanner := bufio.NewScanner(os.Stdin)
